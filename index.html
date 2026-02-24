@@ -132,29 +132,67 @@
         html[lang="tr"] .lang-en { display: none !important; }
         html[lang="en"] .lang-tr { display: none !important; }
 
-        /* PRINT CSS - KANVAS İÇİN ÖZEL YAZDIRMA AYARLARI */
+        /* PRINT CSS - KANVAS İÇİN ÖZEL YAZDIRMA AYARLARI (TAMAMEN DÜZELTİLDİ) */
         @media print {
-            body { background: white !important; color: black !important; }
-            body * { visibility: hidden; }
-            #canvas-board, #canvas-board * { visibility: visible; }
-            #canvas-board {
-                position: absolute;
-                left: 0;
-                top: 0;
-                width: 100%;
-                margin: 0;
-                padding: 0;
-                background: white !important;
+            @page {
+                size: A4 landscape; /* Çıktıyı otomatik olarak yatay (landscape) A4'e zorlar */
+                margin: 10mm;
             }
-            /* Renklerin yazıcıda çıkmasını zorlar */
+            body, html {
+                background: #ffffff !important;
+                color: #000000 !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                height: auto !important;
+                overflow: visible !important;
+            }
+            
+            /* GÖRÜNMEZLİK HATASI DÜZELTİLDİ: Sadece canvas kalacak şekilde her şeyi KÖKTEN YOK EDİYORUZ (Boşluk bırakmaz) */
+            header, footer, aside, #toast-container, .fixed.inset-0, main > section:not(#kanvas) {
+                display: none !important;
+            }
+            
+            #kanvas {
+                padding: 0 !important;
+                margin: 0 !important;
+                border: none !important;
+                background: transparent !important;
+            }
+            
+            /* Kanvas bölümündeki "İndirilebilir Araç" üst başlığını ve butonu gizle */
+            #kanvas > div > div:first-child {
+                display: none !important;
+            }
+            
+            #kanvas .overflow-x-auto {
+                overflow: visible !important;
+                padding: 0 !important;
+            }
+            
+            #canvas-board {
+                position: static !important;
+                min-width: 100% !important;
+                width: 100% !important;
+                background: #ffffff !important;
+                padding: 0 !important;
+                margin: 0 !important;
+                border: none !important;
+                box-shadow: none !important;
+            }
+
             * {
                 -webkit-print-color-adjust: exact !important;
                 print-color-adjust: exact !important;
             }
-            /* Arka plan renklerini yazıcı için düzenleme */
-            .print-bg-gray { background-color: #f8fafc !important; border: 2px solid #cbd5e1 !important; }
-            .print-bg-primary { background-color: #e0f2fe !important; border: 2px solid #bae6fd !important; }
-            .print-text-dark { color: #0f172a !important; }
+
+            /* Yazıcıda karanlık temayı ezip okunabilir açık renklere/çerçevelere çevirme */
+            .print-bg-gray { background-color: #ffffff !important; }
+            .print-bg-white { background-color: #f8fafc !important; border: 2px solid #cbd5e1 !important; }
+            .print-bg-primary { background-color: #f0f9ff !important; border: 2px solid #bae6fd !important; }
+            
+            /* Metin renklerini yazıcı için koyulaştır */
+            .print-text-dark, .print-text-dark * { color: #0f172a !important; }
+            p.text-slate-400 { color: #475569 !important; }
         }
     </style>
 </head>
